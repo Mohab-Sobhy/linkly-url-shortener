@@ -1,6 +1,6 @@
 # Advanced URL Shortening System
 
-![Project Screenshot](path-to-your-screenshot.png)  
+![Project Screenshot](Linkly-Logo.png)  
 
 ---
 
