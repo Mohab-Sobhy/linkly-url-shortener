@@ -1,8 +1,8 @@
 namespace linkly_url_shortener.Domain.Entities;
 
-public class GuestUser : Identifiable<int>
+public class GuestUser : IdentifiableEntity<int>
 {
-    public int Id { get; set; }
-    public required byte[] SessionToken { get; set; }
+    public byte[]? SessionToken { get; set; }
     public DateTime CreatedAt { get; set; }
+    public List<URL>? URLs { set; get; }
 }

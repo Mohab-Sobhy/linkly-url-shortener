@@ -41,6 +41,7 @@ namespace linkly_url_shortener.Models
     
         public DbSet<RegisterUser> RegisterUsers { get; set; }
         public DbSet<GuestUser> GuestUsers { get; set; }
+        public DbSet<URL> URLs { get; set; }
     }
 }
 

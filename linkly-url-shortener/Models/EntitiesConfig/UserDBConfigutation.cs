@@ -23,6 +23,13 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder.Property(user => user.LastLoginAt).IsRequired();
             Console.WriteLine("User collumns configured");
         }
-        
+        public void ConfigureRelations(EntityTypeBuilder<RegisterUser> builder)
+        {
+            builder
+                .HasMany(e => e.URLs)
+                .WithOne()
+                .HasForeignKey("Id");
+            Console.WriteLine("RegisterUser-URLs relation configured");
+        }
     }
 }

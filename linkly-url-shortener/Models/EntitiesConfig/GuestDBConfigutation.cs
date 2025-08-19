@@ -17,6 +17,13 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder.Property(guest => guest.CreatedAt).IsRequired();
             Console.WriteLine("Guest collumns configured");
         }
-        
+        public void ConfigureRelations(EntityTypeBuilder<GuestUser> builder)
+        {
+            builder
+                .HasMany(e => e.URLs)
+                .WithOne()
+                .HasForeignKey("Id");
+            Console.WriteLine("GuestUser-URLs relation configured");
+        }
     }
 }

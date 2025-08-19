@@ -17,13 +17,24 @@ namespace linkly_url_shortener.Models
                 throw new KeyNotFoundException($"GuestUser with ID {id} not found.");
             return user;
         }
-        public void Update(GuestUser Item)
+        public void Update(GuestUser Guest)
         {
-            var existingItem = ReadByID(Item.Id);
-            if (existingItem != null)
+            var existingGuest = _context.GuestUsers
+                .Include(u => u.URLs)
+                .FirstOrDefault(u => u.Id == Guest.Id);
+            if (existingGuest != null)
             {
-                _context.Entry(existingItem).CurrentValues.SetValues(Item);
+                if (existingGuest.URLs != null)
+                {
+                    existingGuest.URLs.Clear();
+                    foreach (var url in existingGuest.URLs)
+                    {
+                        existingGuest.URLs.Add(url);
+                    }
+                }
+                _context.Entry(existingGuest).CurrentValues.SetValues(Guest);
                 _context.SaveChanges();
+                Console.WriteLine($"Guest user with id {Guest.GetId()} updated");
             }
         }
         public void Delete(int id)
@@ -31,6 +42,7 @@ namespace linkly_url_shortener.Models
             GuestUser Item = ReadByID(id);
             if (Item == null) throw new KeyNotFoundException();
             _context.GuestUsers.Remove(Item);
+            Console.WriteLine($"Guest user with id {id} deleted");
         }
     }
 }
