@@ -1,7 +1,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using linkly_url_shortener.Domain.Entities;
-namespace linkly_url_shortener.Domain.EntitiesConfiguration
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using linkly_url_shortener.Domain.Enums;
+namespace linkly_url_shortener.Models.EntitiesConfig
 {
     public class RegisterUserDBConfigutation : IEntityTypeConfiguration<RegisterUser>
     {
@@ -13,7 +15,7 @@ namespace linkly_url_shortener.Domain.EntitiesConfiguration
         {
             builder.HasKey(user => user.Id);
             builder.Property(user => user.Username).IsRequired();
-            builder.Property(user => user.DateUTC).IsRequired();
+            builder.Property(user => user.CreatedAt).IsRequired();
             builder.Property(user => user.PasswordHash).IsRequired();
             builder.Property(user => user.PasswordSalt).IsRequired();
             builder.Property(user => user.Role).IsRequired();

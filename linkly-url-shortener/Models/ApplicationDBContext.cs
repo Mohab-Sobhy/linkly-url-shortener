@@ -1,7 +1,8 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using linkly_url_shortener.Domain.Entities;
-namespace linkly_url_shortener.Domain
+using linkly_url_shortener.Models.EntitiesConfig;
+using linkly_url_shortener.Domain.Enums;
+namespace linkly_url_shortener.Models
 {
     public class ApplicationDBContext : DbContext
     {
@@ -10,7 +11,7 @@ namespace linkly_url_shortener.Domain
             string connectionString = "";
             try
             {
-                optionsBuilder.UseSqlServer(connectionString);
+                optionsBuilder.UseNpgsql(connectionString);
                 Console.WriteLine("Connection successful!");
             }
             catch (Exception ex)
@@ -22,10 +23,10 @@ namespace linkly_url_shortener.Domain
         {
             try
             {
-                var configurations = new List<IEntityTypeConfiguration>
+                List<object> configurations = new List<object>
                     {
-                        new GuestDBConfiguration(),
-                        new RegisteredUserDBConfiguration()
+                        new GuestDBConfigutation(),
+                        new RegisterUserDBConfigutation()
                     };
                 foreach (var config in configurations)
                 {
@@ -38,7 +39,7 @@ namespace linkly_url_shortener.Domain
             }
         }
     
-        public DbSet<RegisteredUser> RegisteredUsers { get; set; }
+        public DbSet<RegisterUser> RegisterUsers { get; set; }
         public DbSet<GuestUser> GuestUsers { get; set; }
     }
 }
