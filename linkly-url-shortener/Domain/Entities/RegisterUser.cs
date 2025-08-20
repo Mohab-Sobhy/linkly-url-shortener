@@ -1,7 +1,5 @@
 using linkly_url_shortener.Domain.Entities;
-
 namespace linkly_url_shortener.Domain.Enums;
-
 public class RegisterUser : IdentifiableEntity<int>
 {
     public string? Username { get; set; }

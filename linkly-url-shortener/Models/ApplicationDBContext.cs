@@ -8,7 +8,7 @@ namespace linkly_url_shortener.Models
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "";
+            string connectionString = "Host=localhost;Port=5432;Database=Linkly;Username=postgres;Password=1234";
             try
             {
                 optionsBuilder.UseNpgsql(connectionString);

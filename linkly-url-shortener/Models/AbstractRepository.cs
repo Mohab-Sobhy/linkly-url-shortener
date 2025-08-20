@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using linkly_url_shortener.Models;
-using linkly_url_shortener.Domain.Entities;
 namespace linkly_url_shortener.Models
 {
     public abstract class AbstractRepository<TEntity>

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using linkly_url_shortener.Domain.Entities;
 using linkly_url_shortener.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 

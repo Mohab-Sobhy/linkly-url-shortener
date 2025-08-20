@@ -1,6 +1,5 @@
 
 using Microsoft.EntityFrameworkCore;
-using linkly_url_shortener.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using linkly_url_shortener.Domain.Enums;
 namespace linkly_url_shortener.Models.EntitiesConfig
@@ -10,6 +9,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
         public void Configure(EntityTypeBuilder<RegisterUser> builder)
         {
             ConfigureColumns(builder);
+            ConfigureRelations(builder);
         }
         public void ConfigureColumns(EntityTypeBuilder<RegisterUser> builder)
         {
@@ -28,7 +28,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder
                 .HasMany(e => e.URLs)
                 .WithOne()
-                .HasForeignKey("Id");
+                .HasForeignKey("UserId");
             Console.WriteLine("RegisterUser-URLs relation configured");
         }
     }

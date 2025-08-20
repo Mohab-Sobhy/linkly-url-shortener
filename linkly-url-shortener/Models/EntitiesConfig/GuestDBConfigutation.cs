@@ -9,6 +9,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
         public void Configure(EntityTypeBuilder<GuestUser> builder)
         {
             ConfigureColumns(builder);
+            ConfigureRelations(builder);
         }
         public void ConfigureColumns(EntityTypeBuilder<GuestUser> builder)
         {
@@ -22,7 +23,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder
                 .HasMany(e => e.URLs)
                 .WithOne()
-                .HasForeignKey("Id");
+                .HasForeignKey("GuestId");
             Console.WriteLine("GuestUser-URLs relation configured");
         }
     }
