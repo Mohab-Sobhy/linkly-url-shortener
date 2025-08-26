@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using linkly_url_shortener.Infrastructure.Database;
@@ -11,9 +12,11 @@ using linkly_url_shortener.Infrastructure.Database;
 namespace linkly_url_shortener.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250826190159_NewConfigurations")]
+    partial class NewConfigurations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,6 +59,9 @@ namespace linkly_url_shortener.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int?>("GuestId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("GuestUserId")
                         .IsRequired()
                         .HasColumnType("integer");
@@ -87,9 +93,13 @@ namespace linkly_url_shortener.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GuestId");
+
                     b.HasIndex("GuestUserId");
 
                     b.HasIndex("RegisterUserId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Url");
                 });
@@ -133,6 +143,9 @@ namespace linkly_url_shortener.Migrations
                     b.Property<int>("UrlId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("UrlId1")
+                        .HasColumnType("integer");
+
                     b.Property<string>("UserAgent")
                         .HasColumnType("text");
 
@@ -142,6 +155,8 @@ namespace linkly_url_shortener.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("UrlId");
+
+                    b.HasIndex("UrlId1");
 
                     b.ToTable("VisitLog");
                 });
@@ -192,17 +207,27 @@ namespace linkly_url_shortener.Migrations
 
             modelBuilder.Entity("linkly_url_shortener.Domain.Entities.Url", b =>
                 {
-                    b.HasOne("linkly_url_shortener.Domain.Entities.GuestUser", "GuestUser")
+                    b.HasOne("linkly_url_shortener.Domain.Entities.GuestUser", null)
                         .WithMany("Urls")
+                        .HasForeignKey("GuestId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("linkly_url_shortener.Domain.Entities.GuestUser", "GuestUser")
+                        .WithMany()
                         .HasForeignKey("GuestUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("linkly_url_shortener.Domain.Enums.RegisterUser", "RegisterUser")
-                        .WithMany("Urls")
+                        .WithMany()
                         .HasForeignKey("RegisterUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("linkly_url_shortener.Domain.Enums.RegisterUser", null)
+                        .WithMany("Urls")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("GuestUser");
 
@@ -211,9 +236,15 @@ namespace linkly_url_shortener.Migrations
 
             modelBuilder.Entity("linkly_url_shortener.Domain.Entities.VisitLog", b =>
                 {
-                    b.HasOne("linkly_url_shortener.Domain.Entities.Url", "Url")
+                    b.HasOne("linkly_url_shortener.Domain.Entities.Url", null)
                         .WithMany("VisitLogs")
                         .HasForeignKey("UrlId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("linkly_url_shortener.Domain.Entities.Url", "Url")
+                        .WithMany()
+                        .HasForeignKey("UrlId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

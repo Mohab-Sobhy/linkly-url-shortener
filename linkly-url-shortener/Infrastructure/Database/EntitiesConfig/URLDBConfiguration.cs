@@ -26,12 +26,14 @@ namespace linkly_url_shortener.Models.EntitiesConfig
         }
         public void ConfigureRelations(EntityTypeBuilder<Url> builder)
         {
-            builder
-                .HasMany(e => e.VisitLogs)
-                .WithOne()
-                .HasForeignKey("UrlId")
+            builder.HasOne(e => e.RegisterUser)
+                .WithMany(u => u.Urls)
+                .HasForeignKey(e => e.RegisterUserId)
                 .OnDelete(DeleteBehavior.Cascade);
-            Console.WriteLine("URL-VisitLogs relation configured");
+            builder.HasOne(e => e.GuestUser)
+                .WithMany(u => u.Urls)
+                .HasForeignKey(e => e.GuestUserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

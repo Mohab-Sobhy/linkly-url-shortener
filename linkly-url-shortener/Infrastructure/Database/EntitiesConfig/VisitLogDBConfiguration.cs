@@ -20,7 +20,13 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder.Property(log => log.Browser).IsRequired().HasMaxLength(50);
             builder.Property(log => log.OS).IsRequired().HasMaxLength(50);
             builder.Property(log => log.DeviceType).IsRequired().HasMaxLength(50);
-            Console.WriteLine("log collumns configured");
+        }
+        public void ConfigureRelations(EntityTypeBuilder<VisitLog> builder)
+        {
+            builder.HasOne(e => e.Url)
+                .WithMany(v => v.VisitLogs)
+                .HasForeignKey(e => e.UrlId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
