@@ -1,5 +1,7 @@
 using linkly_url_shortener.Domain.Entities;
 using linkly_url_shortener.Domain.Enums;
+using linkly_url_shortener.Infrastructure.Database;
+using linkly_url_shortener.Models.EntitiesConfig;
 using Microsoft.EntityFrameworkCore;
 
 namespace linkly_url_shortener.Infrastructure.Database;
@@ -10,40 +12,23 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<RegisterUser>(entity =>
+        try
         {
-            entity.HasKey(e => e.Id);
-        });
-
-        modelBuilder.Entity<GuestUser>(entity =>
+            List<object> configurations = new List<object>
+                    {
+                        new GuestDBConfigutation(),
+                        new RegisterUserDBConfigutation(),
+                        new URLDBConfigutation(),
+                        new VisitLogDBConfigutation()
+                    };
+            foreach (var config in configurations)
+            {
+                modelBuilder.ApplyConfiguration((dynamic)config);
+            }
+        }
+        catch (Exception ex)
         {
-            entity.HasKey(e => e.Id);
-        });
-        
-        modelBuilder.Entity<VisitLog>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-
-            entity.HasOne(e => e.Url)
-                .WithMany(v => v.VisitLogs)
-                .HasForeignKey(e => e.UrlId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
-
-        modelBuilder.Entity<Url>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-
-            entity.HasOne(e => e.RegisterUser)
-                .WithMany(u => u.Urls)
-                .HasForeignKey(e => e.RegisterUserId)
-                .OnDelete(DeleteBehavior.Cascade);
-    
-            
-            entity.HasOne(e => e.GuestUser)
-                .WithMany(u => u.Urls)
-                .HasForeignKey(e => e.GuestUserId)
-                .OnDelete(DeleteBehavior.Cascade);
-        });
+            Console.WriteLine("Error configuring entities: " + ex.GetType() + ' ' + ex.Message);
+        }
     }
 }
