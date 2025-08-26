@@ -28,6 +28,7 @@ The system provides:
   - Visitor country (GeoIP)  
   - Device type (Mobile/Desktop/Tablet)  
   - Browser and OS information  
+  - Source of visit (Referrer)  
 - Features like:
   - Custom aliases  
   - Expiration dates  
