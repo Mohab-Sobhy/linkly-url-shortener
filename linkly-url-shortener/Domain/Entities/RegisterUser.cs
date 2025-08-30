@@ -1,6 +1,6 @@
-using linkly_url_shortener.Domain.Entities;
+using linkly_url_shortener.Domain.Enums;
 
-namespace linkly_url_shortener.Domain.Enums;
+namespace linkly_url_shortener.Domain.Entities;
 
 public class RegisterUser
 {

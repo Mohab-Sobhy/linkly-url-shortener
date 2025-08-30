@@ -2,7 +2,7 @@ using linkly_url_shortener.Application;
 using linkly_url_shortener.Application.DTO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace linkly_url_shortener.Controllers;
+namespace linkly_url_shortener.Presentation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -18,7 +18,6 @@ public class UserController : ControllerBase
     [HttpPost("Register")]
     public IActionResult Register(CreateAccountRequestDTO request)
     {
-        _userService.CreateAccount(request);
-        return Ok();
+        return Ok(_userService.CreateAccount(request));
     }
 }

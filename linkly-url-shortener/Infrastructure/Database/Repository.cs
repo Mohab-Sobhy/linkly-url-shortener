@@ -5,40 +5,40 @@ namespace linkly_url_shortener.Infrastructure.Database;
 
 public class Repository<T> : IRepository<T> where T : class
 {
-    private readonly AppDbContext _context;
-    private readonly DbSet<T> _dbSet;
+    protected readonly AppDbContext Context;
+    protected readonly DbSet<T> DbSet;
 
     public Repository(AppDbContext dbContext)
     {
-        _context = dbContext;
-        _dbSet = _context.Set<T>();
+        Context = dbContext;
+        DbSet = Context.Set<T>();
     }
 
     public async Task<T?> GetByIdAsync(int id)
     {
-        return await _dbSet.FindAsync(id);
+        return await DbSet.FindAsync(id);
     }
 
     public async Task<List<T>> GetAllAsync()
     {
-        return await _dbSet.ToListAsync();
+        return await DbSet.ToListAsync();
     }
 
     public async Task AddAsync(T entity)
     {
-        await _dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
+        await DbSet.AddAsync(entity);
+        await Context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(T entity)
     {
-        _dbSet.Update(entity);
-        await _context.SaveChangesAsync();
+        DbSet.Update(entity);
+        await Context.SaveChangesAsync();
     }
 
     public async Task DeleteAsync(T entity)
     {
-        _dbSet.Remove(entity);
-        await _context.SaveChangesAsync();
+        DbSet.Remove(entity);
+        await Context.SaveChangesAsync();
     }
 }
