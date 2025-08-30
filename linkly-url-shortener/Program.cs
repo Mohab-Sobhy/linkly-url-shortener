@@ -1,7 +1,8 @@
 using FluentValidation;
-using linkly_url_shortener.Application;
+using linkly_url_shortener.Application.Services;
 using linkly_url_shortener.Domain.Interfaces.Repositories;
 using linkly_url_shortener.Infrastructure.Database;
+using linkly_url_shortener.Infrastructure.Database.Repositories;
 using linkly_url_shortener.Presentation.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,7 +41,7 @@ public class Program
 
         app.UseHttpsRedirection();
         
-        app.UseMiddleware<ValidationExceptionMiddleware>();
+        app.UseMiddleware<ExceptionMiddleware>();
 
         app.UseAuthorization();
         

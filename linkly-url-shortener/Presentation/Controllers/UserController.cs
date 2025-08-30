@@ -1,5 +1,5 @@
-using linkly_url_shortener.Application;
 using linkly_url_shortener.Application.DTO;
+using linkly_url_shortener.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace linkly_url_shortener.Presentation.Controllers;
@@ -16,8 +16,8 @@ public class UserController : ControllerBase
     }
     
     [HttpPost("Register")]
-    public IActionResult Register(CreateAccountRequestDTO request)
+    public async Task<IActionResult> Register(CreateAccountRequestDTO request)
     {
-        return Ok(_userService.CreateAccount(request));
+        return Ok( await _userService.CreateAccount(request) );
     }
 }

@@ -4,11 +4,11 @@ using FluentValidation;
 
 namespace linkly_url_shortener.Presentation.Middlewares;
 
-public class ValidationExceptionMiddleware
+public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
 
-    public ValidationExceptionMiddleware(RequestDelegate next)
+    public ExceptionMiddleware(RequestDelegate next)
     {
         _next = next;
     }
@@ -32,6 +32,19 @@ public class ValidationExceptionMiddleware
                 );
             
             await context.Response.WriteAsync(JsonSerializer.Serialize( new { errors } ));
+        }
+        catch (Exception ex)
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            context.Response.ContentType = "application/json";
+
+            var errorResponse = new
+            {
+                Message = ex.Message,
+                StackTrace = ex.StackTrace // Remove in production
+            };
+            
+            await context.Response.WriteAsync(JsonSerializer.Serialize(errorResponse));
         }
     }
 }

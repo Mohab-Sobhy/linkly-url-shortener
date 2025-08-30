@@ -13,7 +13,7 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountRequestDTO>
         RuleFor(x => x.Email)
             .EmailAddress().WithMessage("Email is invalid")
             .MustAsync(async(email, _)=>
-                !await _registerUserRepository.ExistsByUsernameAsync(email))
+                !await _registerUserRepository.ExistsByEmailAsync(email))
             .WithMessage("Email already registered");
         
         RuleFor(x => x.Password)

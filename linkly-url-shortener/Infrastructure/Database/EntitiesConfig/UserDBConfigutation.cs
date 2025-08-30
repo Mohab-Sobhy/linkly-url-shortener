@@ -1,7 +1,6 @@
-
+using linkly_url_shortener.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using linkly_url_shortener.Domain.Enums;
 namespace linkly_url_shortener.Models.EntitiesConfig
 {
     public class RegisterUserDBConfigutation : IEntityTypeConfiguration<RegisterUser>

@@ -7,7 +7,7 @@ using linkly_url_shortener.Domain.Enums;
 using linkly_url_shortener.Domain.Interfaces.Repositories;
 using linkly_url_shortener.Utils;
 
-namespace linkly_url_shortener.Application;
+namespace linkly_url_shortener.Application.Services;
 
 public class UserService
 {
@@ -20,7 +20,7 @@ public class UserService
         _validator = validator;
     }
     
-    public AccountCreatedResultDTO CreateAccount(CreateAccountRequestDTO requestDto)
+    public async Task<AccountCreatedResultDTO> CreateAccount(CreateAccountRequestDTO requestDto)
     {
         var result = _validator.Validate(requestDto);
 
@@ -38,7 +38,7 @@ public class UserService
             CreatedAt = DateTime.UtcNow
         };
         
-        _userRepository.AddAsync(newUser);
+        await _userRepository.AddAsync(newUser);
         
         return new AccountCreatedResultDTO
         {
