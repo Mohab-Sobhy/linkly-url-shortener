@@ -24,7 +24,6 @@ public class TokenGenerator : ITokenGenerator
 
     public string GenerateJwtToken(RegisterUser user)
     {
-        // تعريف Claims
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
@@ -35,7 +34,6 @@ public class TokenGenerator : ITokenGenerator
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        // تعريف التوكن
         var token = new JwtSecurityToken(
             issuer: _issuer,
             audience: _audience,
@@ -44,7 +42,6 @@ public class TokenGenerator : ITokenGenerator
             signingCredentials: creds
         );
 
-        // ارجاع التوكن كسلسلة نصية
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
