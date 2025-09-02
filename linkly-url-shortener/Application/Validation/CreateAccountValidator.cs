@@ -26,6 +26,8 @@ public class CreateAccountValidator : AbstractValidator<CreateAccountRequestDTO>
         
         RuleFor(x => x.Username)
             .NotEmpty().WithMessage("Username is required")
+            .Must(username => !username.Contains("@"))
+            .WithMessage("Username cannot contain '@'")
             .MustAsync(async (username, _) =>
                 !await _registerUserRepository.ExistsByUsernameAsync(username))
             .WithMessage("Username already taken");

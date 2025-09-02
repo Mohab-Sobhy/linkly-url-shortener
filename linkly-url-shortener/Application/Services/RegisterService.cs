@@ -4,20 +4,22 @@ using linkly_url_shortener.Application.DTO;
 using linkly_url_shortener.Domain.DTO;
 using linkly_url_shortener.Domain.Entities;
 using linkly_url_shortener.Domain.Enums;
+using linkly_url_shortener.Domain.Interfaces;
 using linkly_url_shortener.Domain.Interfaces.Repositories;
-using linkly_url_shortener.Utils;
 
 namespace linkly_url_shortener.Application.Services;
 
-public class UserService
+public class RegisterService
 {
     private readonly IRepository<RegisterUser> _userRepository;
     private readonly IValidator<CreateAccountRequestDTO> _validator;
+    private readonly IStringHasher _hasher;
 
-    public UserService(IRepository<RegisterUser> userRepository , IValidator<CreateAccountRequestDTO> validator)
+    public RegisterService(IRepository<RegisterUser> userRepository , IValidator<CreateAccountRequestDTO> validator , IStringHasher hasher)
     {
         _userRepository = userRepository;
         _validator = validator;
+        _hasher = hasher;
     }
     
     public async Task<AccountCreatedResultDTO> CreateAccount(CreateAccountRequestDTO requestDto)
@@ -33,7 +35,7 @@ public class UserService
             Username = requestDto.Username,
             Email = requestDto.Email,
             PasswordSalt = salt,
-            PasswordHash = StringHasher.HashToSha256(requestDto.Password , salt),
+            PasswordHash = _hasher.HashToSha256(requestDto.Password , salt),
             Role = Role.RegularUser,
             CreatedAt = DateTime.UtcNow
         };
@@ -47,7 +49,5 @@ public class UserService
             Role = newUser.Role,
         };
     }
-    
-    
     
 }

@@ -1,11 +1,12 @@
 using System.Security.Cryptography;
 using System.Text;
+using linkly_url_shortener.Domain.Interfaces;
 
-namespace linkly_url_shortener.Utils;
+namespace linkly_url_shortener.Infrastructure.Cryptography;
 
-public class StringHasher
+public class StringHasher : IStringHasher
 {
-    public static byte[] HashToSha256(string s)
+    public byte[] HashToSha256(string s)
     {
         using(SHA256 sha256 = SHA256.Create())
         {
@@ -13,7 +14,7 @@ public class StringHasher
         }
     }
     
-    public static byte[] HashToSha256(string s, byte[] salt)
+    public byte[] HashToSha256(string s, byte[] salt)
     {
         byte[] passBytes = Encoding.UTF8.GetBytes(s);
         byte[] combined = passBytes.Concat(salt).ToArray();
