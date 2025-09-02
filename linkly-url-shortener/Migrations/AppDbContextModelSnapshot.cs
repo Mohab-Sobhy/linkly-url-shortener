@@ -45,6 +45,50 @@ namespace linkly_url_shortener.Migrations
                     b.ToTable("GuestUser");
                 });
 
+            modelBuilder.Entity("linkly_url_shortener.Domain.Entities.RegisterUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Username")
+                        .IsUnique();
+
+                    b.ToTable("RegisterUser");
+                });
+
             modelBuilder.Entity("linkly_url_shortener.Domain.Entities.Url", b =>
                 {
                     b.Property<int>("Id")
@@ -57,7 +101,6 @@ namespace linkly_url_shortener.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("GuestUserId")
-                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsActive")
@@ -71,13 +114,12 @@ namespace linkly_url_shortener.Migrations
                         .HasColumnType("text");
 
                     b.Property<int?>("RegisterUserId")
-                        .IsRequired()
                         .HasColumnType("integer");
 
                     b.Property<string>("ShortCode")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -90,6 +132,9 @@ namespace linkly_url_shortener.Migrations
                     b.HasIndex("GuestUserId");
 
                     b.HasIndex("RegisterUserId");
+
+                    b.HasIndex("ShortCode")
+                        .IsUnique();
 
                     b.ToTable("Url");
                 });
@@ -146,63 +191,17 @@ namespace linkly_url_shortener.Migrations
                     b.ToTable("VisitLog");
                 });
 
-            modelBuilder.Entity("linkly_url_shortener.Domain.Enums.RegisterUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastLoginAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<byte[]>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<byte[]>("PasswordSalt")
-                        .IsRequired()
-                        .HasColumnType("bytea");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
-
-                    b.HasIndex("Username")
-                        .IsUnique();
-
-                    b.ToTable("RegisterUser");
-                });
-
             modelBuilder.Entity("linkly_url_shortener.Domain.Entities.Url", b =>
                 {
                     b.HasOne("linkly_url_shortener.Domain.Entities.GuestUser", "GuestUser")
                         .WithMany("Urls")
                         .HasForeignKey("GuestUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("linkly_url_shortener.Domain.Enums.RegisterUser", "RegisterUser")
+                    b.HasOne("linkly_url_shortener.Domain.Entities.RegisterUser", "RegisterUser")
                         .WithMany("Urls")
                         .HasForeignKey("RegisterUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("GuestUser");
 
@@ -225,14 +224,14 @@ namespace linkly_url_shortener.Migrations
                     b.Navigation("Urls");
                 });
 
+            modelBuilder.Entity("linkly_url_shortener.Domain.Entities.RegisterUser", b =>
+                {
+                    b.Navigation("Urls");
+                });
+
             modelBuilder.Entity("linkly_url_shortener.Domain.Entities.Url", b =>
                 {
                     b.Navigation("VisitLogs");
-                });
-
-            modelBuilder.Entity("linkly_url_shortener.Domain.Enums.RegisterUser", b =>
-                {
-                    b.Navigation("Urls");
                 });
 #pragma warning restore 612, 618
         }

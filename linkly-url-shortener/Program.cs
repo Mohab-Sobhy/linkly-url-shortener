@@ -7,6 +7,7 @@ using linkly_url_shortener.Infrastructure.Database;
 using linkly_url_shortener.Infrastructure.Database.Repositories;
 using linkly_url_shortener.Presentation.Controllers;
 using linkly_url_shortener.Presentation.Middlewares;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -30,6 +31,7 @@ public class Program
         
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IRegisterUserRepository, RegisterUserRepository>();
+        builder.Services.AddScoped<IUrlRepository, UrlRepository>();
         
         builder.Services.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>
@@ -60,6 +62,8 @@ public class Program
         builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
         builder.Services.AddScoped<RegisterService>();
         builder.Services.AddScoped<AuthenticationService>();
+        builder.Services.AddScoped<UrlService>();
+        builder.Services.AddScoped<LoggingService>();
         builder.Services.AddSingleton<IStringHasher, StringHasher>();
         
         var app = builder.Build();
@@ -77,6 +81,13 @@ public class Program
         
         app.UseAuthentication();
         app.UseAuthorization();
+        
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+            KnownProxies = { System.Net.IPAddress.Parse("127.0.0.1") }
+        });
+
         
         app.MapControllers();
 

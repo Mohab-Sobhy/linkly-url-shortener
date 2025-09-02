@@ -14,10 +14,9 @@ namespace linkly_url_shortener.Models.EntitiesConfig
         public void ConfigureColumns(EntityTypeBuilder<Url> builder)
         {
             builder.HasKey(url => url.Id);
-            builder.Property(url => url.RegisterUserId).IsRequired();
-            builder.Property(url => url.GuestUserId).IsRequired();
+            builder.HasIndex(u => u.ShortCode).IsUnique();
             builder.Property(url => url.OriginalUrl).IsRequired();
-            builder.Property(url => url.ShortCode).IsRequired().HasMaxLength(20);;
+            builder.Property(url => url.ShortCode).IsRequired().HasMaxLength(10);
             builder.Property(url => url.CreatedAt).IsRequired();
             builder.Property(url => url.UpdatedAt).IsRequired();
             builder.Property(url => url.IsActive).IsRequired();

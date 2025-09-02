@@ -3,7 +3,7 @@ namespace linkly_url_shortener.Domain.Entities;
 public class VisitLog
 {
     public int Id { get; set; }
-    public required Url Url { get; set; }
+    public Url? Url { get; set; }
     public required int UrlId { get; set; }
     public required DateTime VisitedAt { get; set; }
     public required string IpAddress { get; set; }

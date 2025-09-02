@@ -14,12 +14,12 @@ public class TokenGenerator : ITokenGenerator
     private readonly string _audience;
     private readonly int _expireMinutes;
 
-    public TokenGenerator(string secretKey, string issuer, string audience, int ExpireMinutes)
+    public TokenGenerator(string secretKey, string issuer, string audience, int expireMinutes)
     {
         _secretKey = secretKey;
         _issuer = issuer;
         _audience = audience;
-        _expireMinutes = ExpireMinutes;
+        _expireMinutes = expireMinutes;
     }
 
     public string GenerateJwtToken(RegisterUser user)
