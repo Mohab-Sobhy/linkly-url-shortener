@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace linkly_url_shortener.Presentation.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/")]
 public class RegisterController : ControllerBase
 {
     private readonly RegisterService _registerService;
