@@ -148,17 +148,14 @@ namespace linkly_url_shortener.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Browser")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("Country")
-                        .IsRequired()
                         .HasMaxLength(45)
                         .HasColumnType("character varying(45)");
 
                     b.Property<string>("DeviceType")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -168,7 +165,6 @@ namespace linkly_url_shortener.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("OS")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 

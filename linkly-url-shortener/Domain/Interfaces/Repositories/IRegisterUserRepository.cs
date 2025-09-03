@@ -8,4 +8,5 @@ public interface IRegisterUserRepository
     Task<bool> ExistsByUsernameAsync(string username);
     Task<RegisterUser?> GetByEmailAsync(string username);
     public Task<bool> ExistsByEmailAsync(string email);
+    public Task UpdateLastLoginAsync(RegisterUser user);
 }

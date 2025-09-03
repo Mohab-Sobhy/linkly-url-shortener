@@ -64,6 +64,7 @@ public class Program
         builder.Services.AddScoped<AuthenticationService>();
         builder.Services.AddScoped<UrlService>();
         builder.Services.AddScoped<LoggingService>();
+        builder.Services.AddScoped<UrlService>();
         builder.Services.AddSingleton<IStringHasher, StringHasher>();
         
         var app = builder.Build();

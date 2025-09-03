@@ -27,4 +27,14 @@ public class RegisterUserRepository : Repository<RegisterUser> , IRegisterUserRe
     {
         return await DbSet.AnyAsync(u => u.Email == email);
     }
+
+    public async Task UpdateLastLoginAsync(RegisterUser user)
+    {
+        if (user == null)
+            throw new ArgumentNullException(nameof(user));
+
+        user.LastLoginAt = DateTime.UtcNow;
+        await Context.SaveChangesAsync();
+    }
+
 }

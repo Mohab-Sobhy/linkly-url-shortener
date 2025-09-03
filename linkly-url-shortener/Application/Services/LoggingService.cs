@@ -23,7 +23,6 @@ public class LoggingService
             Referer = visit.Referer,
             VisitedAt = DateTime.UtcNow
         };
-            
         _visitLogger.AddAsync(newVisitLog);
     }
 }

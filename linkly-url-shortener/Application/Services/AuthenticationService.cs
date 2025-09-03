@@ -58,6 +58,8 @@ public class AuthenticationService
             }
         }
 
+        _repository.UpdateLastLoginAsync(user);
+        
         return _tokenGenerator.GenerateJwtToken(user);
     }
     

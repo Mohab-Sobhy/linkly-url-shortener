@@ -1,5 +1,8 @@
+using linkly_url_shortener.Application.DTO;
 using linkly_url_shortener.Domain.Entities;
 using linkly_url_shortener.Domain.Interfaces.Repositories;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace linkly_url_shortener.Application.Services;
 
@@ -25,5 +28,31 @@ public class UrlService
             return null;
         
         return url;
+    }
+
+    public async Task< PagedResultDTO<Url> > GetlUrlsByUserAsync(int userId, string? searchUrl, int pageNumber, int pageSize)
+    {
+        var query = _urlRepository.GetByUser(userId);
+
+        if (!string.IsNullOrWhiteSpace(searchUrl))
+        {
+            query = query.Where( u => u.OriginalUrl.Contains(searchUrl) );
+        }
+
+        var totalCount = await query.CountAsync();
+        
+        var items = await query
+            .OrderByDescending(u => u.Id)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return new PagedResultDTO<Url>
+        {
+            Items = items,
+            TotalCount = totalCount,
+            PageNumber = pageNumber,
+            PageSize = pageSize
+        };
     }
 }
