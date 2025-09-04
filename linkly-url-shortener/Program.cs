@@ -1,5 +1,6 @@
 using FluentValidation;
 using linkly_url_shortener.Application.Services;
+using linkly_url_shortener.Domain.Entities;
 using linkly_url_shortener.Domain.Interfaces;
 using linkly_url_shortener.Domain.Interfaces.Repositories;
 using linkly_url_shortener.Infrastructure.Cryptography;
@@ -10,9 +11,10 @@ using linkly_url_shortener.Presentation.Middlewares;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-
+using System.Security.Cryptography;
+using System.Text;
 namespace linkly_url_shortener;
-
+//{255,0,37,16,195,144,17,197,190,112}
 public class Program
 {
     public static void Main(string[] args)

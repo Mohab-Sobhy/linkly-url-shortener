@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace linkly_url_shortener.Infrastructure.Database.Repositories;
 
-public class UrlRepository : Repository<Url> , IUrlRepository
+public class UrlRepository : Repository<Url>, IUrlRepository
 {
     public UrlRepository(AppDbContext dbContext) : base(dbContext) { }
 
