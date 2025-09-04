@@ -21,6 +21,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder.Property(url => url.UpdatedAt).IsRequired();
             builder.Property(url => url.IsActive).IsRequired();
             builder.Property(url => url.IsCustomName).IsRequired();
+            builder.Property(u => u.Id).ValueGeneratedOnAdd();
             Console.WriteLine("URL collumns configured");
         }
         public void ConfigureRelations(EntityTypeBuilder<Url> builder)

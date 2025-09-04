@@ -35,6 +35,12 @@ public class Repository<T> : IRepository<T> where T : class
         DbSet.Update(entity);
         await Context.SaveChangesAsync();
     }
+    
+    public async Task UpdateRangeAsync(List<T> entities)
+    {
+        DbSet.UpdateRange(entities);
+        await Context.SaveChangesAsync();
+    }
 
     public async Task DeleteAsync(T entity)
     {

@@ -9,6 +9,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
         public void Configure(EntityTypeBuilder<VisitLog> builder)
         {
             ConfigureColumns(builder);
+            ConfigureRelations(builder);
         }
         public void ConfigureColumns(EntityTypeBuilder<VisitLog> builder)
         {
@@ -20,6 +21,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder.Property(log => log.Browser).HasMaxLength(50);
             builder.Property(log => log.OS).HasMaxLength(50);
             builder.Property(log => log.DeviceType).HasMaxLength(50);
+            builder.Property(log => log.Id).ValueGeneratedOnAdd();
         }
         public void ConfigureRelations(EntityTypeBuilder<VisitLog> builder)
         {

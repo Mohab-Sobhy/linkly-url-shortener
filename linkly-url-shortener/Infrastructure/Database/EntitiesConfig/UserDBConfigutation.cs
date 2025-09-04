@@ -23,6 +23,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder.Property(user => user.LastLoginAt);
             builder.HasIndex(u => u.Username).IsUnique();
             builder.HasIndex(u => u.Email).IsUnique();
+            builder.Property(u => u.Id).ValueGeneratedOnAdd();
             Console.WriteLine("User collumns configured");
         }
         public void ConfigureRelations(EntityTypeBuilder<RegisterUser> builder)

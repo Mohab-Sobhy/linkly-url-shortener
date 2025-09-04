@@ -107,6 +107,11 @@ public class UrlService
 
     public async Task< PagedResultDTO<Url> > GetlUrlsByUserAsync(int userId, string? searchUrl, int pageNumber, int pageSize)
     {
+        if (pageNumber < 0 | pageSize < 0)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+        
         var query = _urlRepository.GetByUser(userId);
 
         if (!string.IsNullOrWhiteSpace(searchUrl))

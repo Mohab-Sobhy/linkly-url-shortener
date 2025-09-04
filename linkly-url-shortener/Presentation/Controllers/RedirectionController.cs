@@ -35,7 +35,7 @@ public class RedirectionController : ControllerBase
             Referer = HttpContext.Request.Headers["Referer"].ToString()
         };
 
-        _loggingService.LogVisit(logVisit);
+        await _loggingService.LogVisit(logVisit);
 
         return RedirectPermanent(url.OriginalUrl);
     }

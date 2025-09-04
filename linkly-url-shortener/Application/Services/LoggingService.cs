@@ -13,7 +13,7 @@ public class LoggingService
         _visitLogger = visitLogger;
     }
 
-    public void LogVisit(LogVisitDto visit)
+    public async Task LogVisit(LogVisitDto visit)
     {
         VisitLog newVisitLog = new VisitLog
         {
@@ -23,6 +23,6 @@ public class LoggingService
             Referer = visit.Referer,
             VisitedAt = DateTime.UtcNow
         };
-        _visitLogger.AddAsync(newVisitLog);
+        await _visitLogger.AddAsync(newVisitLog);
     }
 }

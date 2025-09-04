@@ -1,4 +1,5 @@
 using FluentValidation;
+using linkly_url_shortener.Application.Background;
 using linkly_url_shortener.Application.Services;
 using linkly_url_shortener.Domain.Entities;
 using linkly_url_shortener.Domain.Interfaces;
@@ -6,6 +7,7 @@ using linkly_url_shortener.Domain.Interfaces.Repositories;
 using linkly_url_shortener.Infrastructure.Cryptography;
 using linkly_url_shortener.Infrastructure.Database;
 using linkly_url_shortener.Infrastructure.Database.Repositories;
+using linkly_url_shortener.Infrastructure.Parser;
 using linkly_url_shortener.Presentation.Controllers;
 using linkly_url_shortener.Presentation.Middlewares;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -33,6 +35,7 @@ public class Program
         
         builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         builder.Services.AddScoped<IRegisterUserRepository, RegisterUserRepository>();
+        builder.Services.AddScoped<IVisitLogRepository, VisitLogRepository>();
         builder.Services.AddScoped<IUrlRepository, UrlRepository>();
         
         builder.Services.AddAuthentication("Bearer")
@@ -68,6 +71,10 @@ public class Program
         builder.Services.AddScoped<LoggingService>();
         builder.Services.AddScoped<UrlService>();
         builder.Services.AddSingleton<IStringHasher, StringHasher>();
+        builder.Services.AddSingleton<IUserAgentParser, UserAgentParser>();
+        builder.Services.AddHostedService<VisitorInfoUpdaterService>();
+        builder.Services.AddHttpClient();
+
         
         var app = builder.Build();
 
@@ -78,7 +85,7 @@ public class Program
             app.UseSwaggerUI();
         }
 
-        app.UseHttpsRedirection();
+        //app.UseHttpsRedirection();
         
         app.UseMiddleware<ExceptionMiddleware>();
         
@@ -93,7 +100,8 @@ public class Program
 
         
         app.MapControllers();
-
+        
+        app.Urls.Add("http://0.0.0.0:5183"); // يسمح لأي IP بالوصول
         app.Run();
     }
 }

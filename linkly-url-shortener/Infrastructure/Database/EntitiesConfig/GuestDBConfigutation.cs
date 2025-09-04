@@ -16,6 +16,7 @@ namespace linkly_url_shortener.Models.EntitiesConfig
             builder.Property(guest => guest.SessionToken).IsRequired();
             builder.Property(guest => guest.CreatedAt).IsRequired();
             builder.HasIndex(guest => guest.SessionToken).IsUnique();
+            builder.Property(u => u.Id).ValueGeneratedOnAdd();
             Console.WriteLine("Guest collumns configured");
         }
     }
